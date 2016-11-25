@@ -1,17 +1,29 @@
-apply plugin: 'groovy'
 
 buildscript {
-    // inspired by https://github.com/Netflix/gradle-template
-    apply from: file('gradle/buildscript.gradle'), to: buildscript
+    repositories {
+        jcenter()
+        maven {
+            credentials {
+                username repoUsername
+                password repoPassword
+            }
+            url = mavenRepository
+        }
+    }
+
+    dependencies {
+        classpath 'nl.javadude.gradle.plugins:license-gradle-plugin:0.10.0'
+        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:2.2.5'
+        classpath 'com.taktik.gradle:gradle-plugin-maven-repository:1.0.0-SNAPSHOT'
+    }
 }
+
+apply plugin: 'groovy'
+apply plugin: 'maven-repository'
 
 repositories {
     jcenter()
 }
-
-apply from: file('gradle/license.gradle')
-apply from: file('gradle/idea.gradle')
-apply from: file('gradle/publish.gradle')
 
 task wrapper(type: Wrapper) {
     gradleVersion = '2.0'
@@ -59,19 +71,3 @@ task integTest(type: Test) {
 integTest.mustRunAfter test
 
 check.dependsOn(integTest)
-
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    from javadoc.destinationDir
-    classifier = 'javadoc'
-}
-
-task sourcesJar(type: Jar) {
-    from sourceSets.main.allSource
-    classifier = 'sources'
-}
-
-artifacts {
-    archives jar
-    archives javadocJar
-    archives sourcesJar
-}
