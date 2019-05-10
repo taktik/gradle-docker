@@ -105,8 +105,16 @@ class Dockerfile {
         this.append('CMD ["' + cmd.join('", "') + '"]')
     }
 
-    void entrypoint(List cmd) {
-        this.append('ENTRYPOINT ["' + cmd.join('", "') + '"]')
+    void entrypoint(List entryPoints) {
+        this.append('ENTRYPOINT ["' + entryPoints.join('", "') + '"]')
+    }
+
+    void run(String cmd) {
+        this.append("RUN ${cmd}")
+    }
+
+    void volume(List volumes) {
+        this.append('VOLUME ["' + volumes.join('", "') + '"]')
     }
 
     private static boolean isUrl(String url) {

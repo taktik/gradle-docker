@@ -48,16 +48,16 @@ class LegacyDockerfileMethods implements GroovyInterceptable {
 
     /**
      * Set the entry point of the Docker image ('ENTRYPOINT' in Dockerfile. Deprectated.
-     *
-     * Use the new dockerfile DSL instead:
-     *   dockerfile {
-     *     entrypoint ['your', 'command']
-     *   }
-     *
-     */
+        *
+        * Use the new dockerfile DSL instead:
+        *   dockerfile {
+            *     entrypoint ['your', 'command']
+            *   }
+        *
+        */
     @Deprecated
-    void entryPoint(List entryPoint) {
-        dockerfile.entrypoint(cmd)
+    void entryPoint(List entryPoints) {
+        dockerfile.entrypoint(entryPoints)
     }
 
     /**
