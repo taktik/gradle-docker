@@ -16,10 +16,9 @@
 package se.transmode.gradle.plugins.docker
 
 import org.gradle.api.DefaultTask
-import org.gradle.api.logging.Logger
 
-import com.google.common.annotations.VisibleForTesting;
-
+import com.google.common.annotations.VisibleForTesting
+import org.gradle.api.tasks.Internal;
 import se.transmode.gradle.plugins.docker.client.DockerClient
 import se.transmode.gradle.plugins.docker.client.JavaDockerClient
 import se.transmode.gradle.plugins.docker.client.NativeDockerClient
@@ -30,26 +29,36 @@ abstract class DockerTaskBase extends DefaultTask {
     static final String LATEST_VERSION = 'latest'
     
     // Name of the application being wrapped into a docker image (default: project.name)
+    @Internal
     String applicationName
     // What to tag the created docker image with (default: group/applicationName)
+    @Internal
     String tag
     // Which version to use along with the tag (default: latest)
+    @Internal
     String tagVersion
     // Hostname, port of the docker image registry unless Docker index is used
+    @Internal
     String registry
 
     // Should we use Docker's remote API instead of the docker executable
+    @Internal
     Boolean useApi
     
     // Full path to the docker executable
+    @Internal
     String dockerBinary
     
     // URL of the remote Docker host (default: localhost)
+    @Internal
     String hostUrl
     
     // Docker remote API credentials
+    @Internal
     String apiUsername
+    @Internal
     String apiPassword
+    @Internal
     String apiEmail
     
     DockerTaskBase() {
@@ -64,6 +73,7 @@ abstract class DockerTaskBase extends DefaultTask {
         tagVersion = LATEST_VERSION;
     }
 
+    @Internal
     protected String getImageTag() {
         String tag
         tag = this.tag ?: getDefaultImageTag()
@@ -92,6 +102,7 @@ abstract class DockerTaskBase extends DefaultTask {
 
     }
 
+    @Internal
     protected DockerClient getClient() {
         DockerClient client
         if(getUseApi()) {

@@ -19,6 +19,7 @@ import com.google.common.annotations.VisibleForTesting
 import org.gradle.api.Task
 import org.gradle.api.logging.Logger
 import org.gradle.api.logging.Logging
+import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.TaskAction
 import se.transmode.gradle.plugins.docker.client.DockerClient
 import se.transmode.gradle.plugins.docker.image.Dockerfile
@@ -29,18 +30,24 @@ class DockerTask extends DockerTaskBase {
     public static final String DEFAULT_IMAGE = 'ubuntu'
 
     // Name and Email of the image maintainer
+    @Internal
     String maintainer
     // Whether or not to execute docker to build the image (default: false)
+    @Internal
     Boolean dryRun
     // Whether or not to push the image into the registry (default: false)
+    @Internal
     Boolean push
     // Wether or not the plugin will use pull flag when building
+    @Internal
     boolean pull
 
     @Delegate(deprecated=true)
+    @Internal
     LegacyDockerfileMethods legacyMethods
 
     // fixme: all of this should work: dockerfile = File()/String() and dockerfile { ... } how can I achieve this?
+    @Internal
     private Dockerfile dockerfile
 
     @Override
@@ -84,6 +91,7 @@ class DockerTask extends DockerTaskBase {
     /**
      * Name of base docker image
     */
+    @Internal
     String baseImage
 
     /**
@@ -110,8 +118,10 @@ class DockerTask extends DockerTaskBase {
     }
 
     // Dockerfile instructions (ADD, RUN, etc.)
+    @Internal
     def instructions
     // Dockerfile staging area i.e. context dir
+    @Internal
     File stageDir
     DockerTask() {
         instructions = []
